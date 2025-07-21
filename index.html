@@ -204,7 +204,7 @@
 
         async function initializeLiff() {
             try {
-                await liff.init({ liffId: 'YOUR_LIFF_ID' });
+                await liff.init({ liffId: '2001506774-D0NjyNjY' });
 
                 if (!liff.isLoggedIn()) {
                     liff.login();
@@ -235,7 +235,7 @@
 
                 showLoading();
 
-                const url = 'YOUR_BACKEND_ENDPOINT';
+                const url = 'https://script.google.com/macros/s/AKfycbze6FMgKhOwCSfsHy_KB90Jui_kNcR5gXGvxbxmm6r7lSB3UjXoOH0nQaHCn4N_g72K/exec';
                 const script = document.createElement('script');
                 const callbackName = 'scanCallback_' + Date.now();
 
@@ -523,12 +523,12 @@
             document.querySelector('.container').style.display = 'none';
 
             let title = 'กรุณาเพิ่มเพื่อนบอทก่อน';
-            let message = 'เพิ่มบอท <strong>@YOUR_BOT_ID</strong> เป็นเพื่อน<br>เพื่อเริ่มสะสมแต้มและรับรางวัลพิเศษ!';
+            let message = 'เพิ่มบอท <strong>@433rdxlv</strong> เป็นเพื่อน<br>เพื่อเริ่มสะสมแต้มและรับรางวัลพิเศษ!';
             let buttonText = 'เพิ่มเพื่อน';
 
             if (reason === 'blocked') {
                 title = 'กรุณาปลดบล็อคบอท';
-                message = 'คุณได้บล็อคบอท <strong>@YOUR_BOT_ID</strong><br>กรุณาปลดบล็อคและเพิ่มเพื่อนเพื่อเข้าร่วมกิจกรรม';
+                message = 'คุณได้บล็อคบอท <strong>@433rdxlv</strong><br>กรุณาปลดบล็อคและเพิ่มเพื่อนเพื่อเข้าร่วมกิจกรรม';
                 buttonText = 'ปลดบล็อคและเพิ่มเพื่อน';
             }
 
