@@ -625,7 +625,7 @@
 </head>
 <body>
     <!-- Add Friend Section (shown when user hasn't added the bot as friend) -->
-    <div id="addFriendSection" class="add-friend-section active">
+    <div id="addFriendSection" class="add-friend-section">
         <div class="add-friend-content">
             <div class="add-friend-icon">👋</div>
             <h2 class="add-friend-title">กรุณาเพิ่มเพื่อนก่อนใช้งาน</h2>
@@ -838,15 +838,8 @@
                 if (!liff.isLoggedIn()) {
                     liff.login();
                 } else {
-                    // Check if user has added the bot as friend
+                    // First check friend status
                     await checkFriendStatus();
-                    
-                    if (!isFriend) {
-                        // Show add friend section
-                        document.getElementById('addFriendSection').classList.add('active');
-                        document.getElementById('appContainer').style.display = 'none';
-                        return;
-                    }
                     
                     // Check if there's a scan parameter
                     const urlParams = new URLSearchParams(window.location.search);
@@ -855,10 +848,8 @@
                     if (scanData) {
                         // Admin scanning QR code
                         await handleQRScan(scanData);
-                    } else {
-                        // Normal flow
-                        getUserProfile();
                     }
+                    // Normal flow will be handled by checkFriendStatus()
                 }
             } catch (error) {
                 console.error('LIFF initialization failed', error);
@@ -901,10 +892,18 @@
                     // Hide add friend section and show app
                     document.getElementById('addFriendSection').classList.remove('active');
                     document.getElementById('appContainer').style.display = 'block';
+                    getUserProfile(); // Load user data immediately if already friend
+                } else {
+                    // Show add friend section only if not already friend
+                    document.getElementById('addFriendSection').classList.add('active');
+                    document.getElementById('appContainer').style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error checking friend status:', error);
                 isFriend = false;
+                // Show add friend section if there's an error checking status
+                document.getElementById('addFriendSection').classList.add('active');
+                document.getElementById('appContainer').style.display = 'none';
             }
         }
 
