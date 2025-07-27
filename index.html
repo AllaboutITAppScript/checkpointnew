@@ -7,10 +7,545 @@
     <link href="https://cdn.jsdelivr.net/gh/maketline/goodday/font/stylesheet.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* CSS styles remain the same as before */
-        /* ... (all CSS from previous code) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'line_seed_sans_th', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Enhanced SweetAlert Styling */
+        .swal2-popup {
+            border-radius: 20px !important;
+            padding: 30px 25px !important;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15) !important;
+            border: none !important;
+        }
+
+        .swal2-title {
+            font-family: 'line_seed_sans_th', sans-serif !important;
+            font-size: 20px !important;
+            color: #333 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .swal2-content {
+            font-family: 'line_seed_sans_th', sans-serif !important;
+            font-size: 16px !important;
+            color: #666 !important;
+            line-height: 1.5 !important;
+        }
+
+        .swal2-confirm {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+            border: none !important;
+            border-radius: 25px !important;
+            padding: 12px 30px !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .swal2-confirm:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.4) !important;
+        }
+
+        .swal2-cancel {
+            background: transparent !important;
+            border: 2px solid #ddd !important;
+            border-radius: 25px !important;
+            padding: 10px 30px !important;
+            font-size: 16px !important;
+            color: #666 !important;
+            font-weight: bold !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .swal2-cancel:hover {
+            background: #f8f9fa !important;
+            border-color: #ccc !important;
+        }
+
+        .swal2-success .swal2-icon {
+            border-color: #11998e !important;
+            color: #11998e !important;
+        }
+
+        .swal2-error .swal2-icon {
+            border-color: #ee5a24 !important;
+            color: #ee5a24 !important;
+        }
+
+        .swal2-warning .swal2-icon {
+            border-color: #ffc107 !important;
+            color: #ffc107 !important;
+        }
+
+        .swal2-question .swal2-icon {
+            border-color: #764ba2 !important;
+            color: #764ba2 !important;
+        }
+
+        /* Custom SweetAlert animations */
+        .swal2-show {
+            animation: swal2-show-custom 0.3s ease-out !important;
+        }
+
+        @keyframes swal2-show-custom {
+            0% {
+                transform: scale(0.7) translateY(30px);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #ee5a24 0%, #f368e0 100%);
+            padding: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .points-badge {
+            background: white;
+            color: #ee5a24;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab.active {
+            color: #ee5a24;
+            border-bottom-color: #ee5a24;
+            background: rgba(238, 90, 36, 0.05);
+        }
+
+        .nav-tab:hover {
+            background: rgba(238, 90, 36, 0.05);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Check-in Calendar */
+        .checkin-calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .calendar-header h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .streak-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .day-card {
+            text-align: center;
+            padding: 15px 5px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card.checked {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .day-card.today {
+            border: 2px solid #ee5a24;
+            background: white;
+        }
+
+        .day-card.today:not(.checked) {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(238, 90, 36, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(238, 90, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(238, 90, 36, 0); }
+        }
+
+        .day-name {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .day-card.checked .day-name {
+            color: white;
+        }
+
+        .day-number {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .day-card.checked .day-number {
+            color: white;
+        }
+
+        .day-points {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .day-card.checked .day-points {
+            color: white;
+        }
+
+        .check-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #11998e;
+            font-weight: bold;
+        }
+
+        .day-card.checked .check-icon {
+            display: flex;
+        }
+
+        .checkin-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ee5a24 0%, #f368e0 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.3);
+        }
+
+        .checkin-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.4);
+        }
+
+        .checkin-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Rewards Section */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .reward-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .reward-card.unavailable {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .reward-card.out-of-stock {
+            display: none;
+        }
+
+        .reward-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .reward-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .reward-points {
+            color: #ee5a24;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .reward-stock {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .reward-expiry {
+            font-size: 11px;
+            color: #999;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .redeem-btn {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .redeem-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .redeem-btn:disabled {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        /* Admin Section */
+        .admin-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .pending-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .pending-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pending-info {
+            flex: 1;
+        }
+
+        .pending-user {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .pending-reward {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .approve-btn, .reject-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .approve-btn {
+            background: #11998e;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #ee5a24;
+            color: white;
+        }
+
+        .approve-btn:hover, .reject-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Loading */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ee5a24;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         
-        /* New styles for QR scanner */
+        /* QR Scanner UI */
         .qr-scanner-container {
             position: relative;
             width: 100%;
@@ -83,6 +618,18 @@
             cursor: pointer;
             z-index: 20;
         }
+        
+        .scanner-instruction {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+            z-index: 20;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -154,6 +701,7 @@
                 
                 <!-- QR Scanner Container -->
                 <div id="qrScanner" class="qr-scanner-container">
+                    <div class="scanner-instruction">สแกน QR Code เพื่อยืนยันการรับรางวัล</div>
                     <div class="qr-overlay">
                         <div class="qr-frame"></div>
                     </div>
@@ -1426,170 +1974,182 @@
                                             },
                                             {
                                                 type: 'box',
-                                                layout: 'vertical',
-                                                contents: [
-                                                    {
-                                                        type: 'text',
-                                                        text: 'รางวัล',
-                                                        size: 'sm',
-                                                        color: '#666666'
-                                                    },
-                                                    {
-                                                        type: 'text',
-                                                        text: rewardName,
-                                                        size: 'md',
-                                                        weight: 'bold',
-                                                        color: '#333333',
-                                                        wrap: true
-                                                    }
-                                                ],
-                                                margin: 'sm'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        type: 'separator'
-                                    },
-                                    {
-                                        type: 'box',
-                                        layout: 'horizontal',
+                                        layout: 'vertical',
                                         contents: [
                                             {
                                                 type: 'text',
-                                                text: '💰',
-                                                size: 'xl',
-                                                flex: 0
+                                                text: 'รางวัล',
+                                                size: 'sm',
+                                                color: '#666666'
                                             },
-                                            {
-                                                type: 'box',
-                                                layout: 'vertical',
-                                                contents: [
-                                                    {
-                                                        type: 'text',
-                                                        text: 'แต้มที่ใช้',
-                                                        size: 'sm',
-                                                        color: '#666666'
-                                                    },
-                                                    {
-                                                        type: 'text',
-                                                        text: `${rewardPoints} แต้ม`,
-                                                        size: 'md',
-                                                        weight: 'bold',
-                                                        color: '#ee5a24'
-                                                    }
-                                                ],
-                                                margin: 'sm'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        type: 'separator'
-                                    },
-                                    {
-                                        type: 'box',
-                                        layout: 'horizontal',
-                                        contents: [
                                             {
                                                 type: 'text',
-                                                text: '🔢',
-                                                size: 'xl',
-                                                flex: 0
-                                            },
-                                            {
-                                                type: 'box',
-                                                layout: 'vertical',
-                                                contents: [
-                                                    {
-                                                        type: 'text',
-                                                        text: 'รหัสอ้างอิง',
-                                                        size: 'sm',
-                                                        color: '#666666'
-                                                    },
-                                                    {
-                                                        type: 'text',
-                                                        text: redemptionId,
-                                                        size: 'sm',
-                                                        color: '#999999',
-                                                        weight: 'bold'
-                                                    }
-                                                ],
-                                                margin: 'sm'
+                                                text: rewardName,
+                                                size: 'md',
+                                                weight: 'bold',
+                                                color: '#333333',
+                                                wrap: true
                                             }
-                                        ]
-                                    },
-                                    {
-                                        type: 'separator'
-                                    },
-                                    {
-                                        type: 'box',
-                                        layout: 'horizontal',
-                                        contents: [
-                                            {
-                                                type: 'text',
-                                                text: '📅',
-                                                size: 'xl',
-                                                flex: 0
-                                            },
-                                            {
-                                                type: 'box',
-                                                layout: 'vertical',
-                                                contents: [
-                                                    {
-                                                        type: 'text',
-                                                        text: 'วันที่แลก',
-                                                        size: 'sm',
-                                                        color: '#666666'
-                                                    },
-                                                    {
-                                                        type: 'text',
-                                                        text: new Date().toLocaleDateString('th-TH', {
-                                                            year: 'numeric',
-                                                            month: 'short',
-                                                            day: 'numeric',
-                                                            hour: '2-digit',
-                                                            minute: '2-digit'
-                                                        }),
-                                                        size: 'sm',
-                                                        color: '#999999',
-                                                        wrap: true
-                                                    }
-                                                ],
-                                                margin: 'sm'
-                                            }
-                                        ]
+                                        ],
+                                        margin: 'sm'
                                     }
                                 ]
                             },
                             {
+                                type: 'separator'
+                            },
+                            {
                                 type: 'box',
-                                layout: 'vertical',
+                                layout: 'horizontal',
                                 contents: [
+                                    {
+                                        type: 'text',
+                                        text: '💰',
+                                        size: 'xl',
+                                        flex: 0
+                                    },
                                     {
                                         type: 'box',
                                         layout: 'vertical',
                                         contents: [
                                             {
                                                 type: 'text',
-                                                text: '⏳ สถานะ: รอการอนุมัติ',
+                                                text: 'แต้มที่ใช้',
+                                                size: 'sm',
+                                                color: '#666666'
+                                            },
+                                            {
+                                                type: 'text',
+                                                text: `${rewardPoints} แต้ม`,
                                                 size: 'md',
-                                                color: '#ff9800',
                                                 weight: 'bold',
-                                                align: 'center'
+                                                color: '#ee5a24'
                                             }
                                         ],
-                                        backgroundColor: '#fff8e1',
-                                        paddingAll: '15px',
-                                        cornerRadius: '12px',
-                                        borderWidth: '1px',
-                                        borderColor: '#ffcc02'
+                                        margin: 'sm'
                                     }
-                                ],
-                                margin: 'xl'
+                                ]
                             },
                             {
-                                type: 'separator',
-                                margin: 'xl',
-                                color: '#eeeeee'
+                                type: 'separator'
+                            },
+                            {
+                                type: 'box',
+                                layout: 'horizontal',
+                                contents: [
+                                    {
+                                        type: 'text',
+                                        text: '🔢',
+                                        size: 'xl',
+                                        flex: 0
+                                    },
+                                    {
+                                        type: 'box',
+                                        layout: 'vertical',
+                                        contents: [
+                                            {
+                                                type: 'text',
+                                                text: 'รหัสอ้างอิง',
+                                                size: 'sm',
+                                                color: '#666666'
+                                            },
+                                            {
+                                                type: 'text',
+                                                text: redemptionId,
+                                                size: 'sm',
+                                                color: '#999999',
+                                                weight: 'bold'
+                                            }
+                                        ],
+                                        margin: 'sm'
+                                    }
+                                ]
+                            },
+                            {
+                                type: 'separator'
+                            },
+                            {
+                                type: 'box',
+                                layout: 'horizontal',
+                                contents: [
+                                    {
+                                        type: 'text',
+                                        text: '📅',
+                                        size: 'xl',
+                                        flex: 0
+                                    },
+                                    {
+                                        type: 'box',
+                                        layout: 'vertical',
+                                        contents: [
+                                            {
+                                                type: 'text',
+                                                text: 'วันที่แลก',
+                                                size: 'sm',
+                                                color: '#666666'
+                                            },
+                                            {
+                                                type: 'text',
+                                                text: new Date().toLocaleDateString('th-TH', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                }),
+                                                size: 'sm',
+                                                color: '#999999',
+                                                wrap: true
+                                            }
+                                        ],
+                                        margin: 'sm'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        type: 'box',
+                        layout: 'vertical',
+                        contents: [
+                            {
+                                type: 'box',
+                                layout: 'vertical',
+                                contents: [
+                                    {
+                                        type: 'text',
+                                        text: '⏳ สถานะ: รอการอนุมัติ',
+                                        size: 'md',
+                                        color: '#ff9800',
+                                        weight: 'bold',
+                                        align: 'center'
+                                    }
+                                ],
+                                backgroundColor: '#fff8e1',
+                                paddingAll: '15px',
+                                cornerRadius: '12px',
+                                borderWidth: '1px',
+                                borderColor: '#ffcc02'
+                            }
+                        ],
+                        margin: 'xl'
+                    },
+                    {
+                        type: 'separator',
+                        margin: 'xl',
+                        color: '#eeeeee'
+                    },
+                    {
+                        type: 'box',
+                        layout: 'vertical',
+                        contents: [
+                            {
+                                type: 'text',
+                                text: '📋 วิธีการรับรางวัล',
+                                size: 'md',
+                                weight: 'bold',
+                                color: '#333333',
+                                margin: 'sm'
                             },
                             {
                                 type: 'box',
@@ -1597,900 +2157,898 @@
                                 contents: [
                                     {
                                         type: 'text',
-                                        text: '📋 วิธีการรับรางวัล',
-                                        size: 'md',
-                                        weight: 'bold',
-                                        color: '#333333',
+                                        text: '1️⃣ รอ Admin อนุมัติการแลกรางวัล',
+                                        size: 'sm',
+                                        color: '#666666',
                                         margin: 'sm'
                                     },
                                     {
-                                        type: 'box',
-                                        layout: 'vertical',
-                                        contents: [
-                                            {
-                                                type: 'text',
-                                                text: '1️⃣ รอ Admin อนุมัติการแลกรางวัล',
-                                                size: 'sm',
-                                                color: '#666666',
-                                                margin: 'sm'
-                                            },
-                                            {
-                                                type: 'text',
-                                                text: '2️⃣ แสดง QR Code นี้ให้ Admin',
-                                                size: 'sm',
-                                                color: '#666666',
-                                                margin: 'sm'
-                                            },
-                                            {
-                                                type: 'text',
-                                                text: '3️⃣ ระบบจะยืนยันการรับรางวัลอัตโนมัติ',
-                                                size: 'sm',
-                                                color: '#666666',
-                                                margin: 'sm'
-                                            }
-                                        ]
+                                        type: 'text',
+                                        text: '2️⃣ แสดง QR Code นี้ให้ Admin',
+                                        size: 'sm',
+                                        color: '#666666',
+                                        margin: 'sm'
+                                    },
+                                    {
+                                        type: 'text',
+                                        text: '3️⃣ ระบบจะยืนยันการรับรางวัลอัตโนมัติ',
+                                        size: 'sm',
+                                        color: '#666666',
+                                        margin: 'sm'
                                     }
-                                ],
-                                backgroundColor: '#f8f9fa',
-                                cornerRadius: '10px',
-                                paddingAll: '15px',
-                                margin: 'md'
+                                ]
                             }
                         ],
-                        paddingAll: '20px'
-                    },
-                    footer: {
-                        type: 'box',
-                        layout: 'vertical',
-                        spacing: 'sm',
-                        contents: [
-                            {
-                                type: 'button',
-                                style: 'primary',
-                                height: 'sm',
-                                color: '#11998e',
-                                action: {
-                                    type: 'uri',
-                                    label: '📊 ดูสถานะการแลกรางวัล',
-                                    uri: liff.permanentLink.createUrl()
-                                },
-                                margin: 'sm'
-                            },
-                            {
-                                type: 'text',
-                                text: '💡 เก็บหน้าจอนี้ไว้เพื่อแสดงให้ Admin',
-                                size: 'xs',
-                                color: '#999999',
-                                align: 'center',
-                                margin: 'sm'
-                            }
-                        ],
-                        paddingAll: '15px'
-                    },
-                    styles: {
-                        header: {
-                            backgroundColor: '#ffffff'
-                        },
-                        body: {
-                            backgroundColor: '#ffffff'
-                        },
-                        footer: {
-                            backgroundColor: '#f8f9fa'
-                        }
+                        backgroundColor: '#f8f9fa',
+                        cornerRadius: '10px',
+                        paddingAll: '15px',
+                        margin: 'md'
                     }
-                }
-            };
-
-            try {
-                await liff.sendMessages([flexMessage]);
-            } catch (error) {
-                console.error('Error sending redemption flex message', error);
-            }
-        }
-
-        // Admin functions
-        function loadPendingRedemptions() {
-            if (!isAdmin) return;
-            
-            const script = document.createElement('script');
-            const callbackName = 'pendingCallback_' + Date.now();
-            
-            window[callbackName] = function(data) {
-                handlePendingData(data);
-                delete window[callbackName];
-                document.body.removeChild(script);
-            };
-            
-            script.src = `${GOOGLE_SCRIPT_URL}?action=getPending&callback=${callbackName}`;
-            document.body.appendChild(script);
-        }
-
-        function handlePendingData(data) {
-            if (data.success) {
-                const container = document.getElementById('pendingList');
-                container.innerHTML = '';
-                
-                if (data.pending.length === 0) {
-                    container.innerHTML = `
-                        <div style="
-                            text-align: center; 
-                            padding: 40px 20px;
-                            color: #999;
-                            background: #f8f9fa;
-                            border-radius: 15px;
-                        ">
-                            <div style="
-                                width: 80px;
-                                height: 80px;
-                                background: #e9ecef;
-                                border-radius: 50%;
-                                margin: 0 auto 20px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 40px;
-                            ">📝</div>
-                            <h3 style="margin-bottom: 10px; color: #666;">ไม่มีรายการรอการอนุมัติ</h3>
-                            <p style="font-size: 14px;">รายการแลกรางวัลจะแสดงที่นี่เมื่อมีผู้ใช้แลกรางวัล</p>
-                        </div>
-                    `;
-                } else {
-                    data.pending.forEach(item => {
-                        const pendingItem = document.createElement('div');
-                        pendingItem.className = 'pending-item';
-                        pendingItem.style.cssText = `
-                            background: linear-gradient(135deg, #fff, #f8f9fa);
-                            padding: 20px;
-                            border-radius: 15px;
-                            margin-bottom: 15px;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-                            border: 1px solid #e9ecef;
-                            transition: all 0.3s ease;
-                        `;
-                        
-                        pendingItem.innerHTML = `
-                            <div class="pending-info" style="flex: 1;">
-                                <div style="
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 15px;
-                                    margin-bottom: 10px;
-                                ">
-                                    <div style="
-                                        width: 40px;
-                                        height: 40px;
-                                        background: linear-gradient(135deg, #11998e, #38ef7d);
-                                        border-radius: 50%;
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        font-size: 20px;
-                                        color: white;
-                                    ">👤</div>
-                                    <div>
-                                        <div style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 2px;">
-                                            ${item.userName}
-                                        </div>
-                                        <div style="font-size: 12px; color: #999;">
-                                            ${new Date(item.requestDate).toLocaleDateString('th-TH', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit'
-                                            })}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="
-                                    background: #f0f8ff;
-                                    padding: 10px 15px;
-                                    border-radius: 8px;
-                                    border-left: 4px solid #11998e;
-                                    margin-bottom: 10px;
-                                ">
-                                    <div style="color: #333; font-weight: bold; margin-bottom: 5px;">
-                                        🎁 ${item.rewardName}
-                                    </div>
-                                    <div style="color: #ee5a24; font-weight: bold; font-size: 14px;">
-                                        💰 ${item.rewardPoints} แต้ม
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 8px; margin-left: 15px;">
-                                <button onclick="approveRedemption('${item.id}')" style="
-                                    background: linear-gradient(135deg, #11998e, #38ef7d);
-                                    color: white;
-                                    border: none;
-                                    padding: 10px 20px;
-                                    border-radius: 8px;
-                                    font-weight: bold;
-                                    cursor: pointer;
-                                    transition: all 0.3s;
-                                    font-size: 14px;
-                                    box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
-                                " onmouseover="this.style.transform='translateY(-2px)'" 
-                                   onmouseout="this.style.transform='translateY(0)'">
-                                    ✅ อนุมัติ
-                                </button>
-                                <button onclick="rejectRedemption('${item.id}')" style="
-                                    background: linear-gradient(135deg, #ee5a24, #f368e0);
-                                    color: white;
-                                    border: none;
-                                    padding: 10px 20px;
-                                    border-radius: 8px;
-                                    font-weight: bold;
-                                    cursor: pointer;
-                                    transition: all 0.3s;
-                                    font-size: 14px;
-                                    box-shadow: 0 2px 8px rgba(238, 90, 36, 0.3);
-                                " onmouseover="this.style.transform='translateY(-2px)'" 
-                                   onmouseout="this.style.transform='translateY(0)'">
-                                    ❌ ปฏิเสธ
-                                </button>
-                            </div>
-                        `;
-                        
-                        // Add hover effect
-                        pendingItem.addEventListener('mouseenter', () => {
-                            pendingItem.style.transform = 'translateY(-3px)';
-                            pendingItem.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
-                        });
-                        
-                        pendingItem.addEventListener('mouseleave', () => {
-                            pendingItem.style.transform = 'translateY(0)';
-                            pendingItem.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
-                        });
-                        
-                        container.appendChild(pendingItem);
-                    });
-                }
-            }
-        }
-
-        function approveRedemption(redemptionId) {
-            Swal.fire({
-                ...SweetAlertConfig.question,
-                title: 'ยืนยันการอนุมัติ?',
-                html: `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="
-                            width: 80px;
-                            height: 80px;
-                            background: linear-gradient(135deg, #11998e, #38ef7d);
-                            border-radius: 50%;
-                            margin: 0 auto 20px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 40px;
-                            color: white;
-                        ">✅</div>
-                        <p style="font-size: 16px; margin-bottom: 15px;">
-                            การแลกรางวัลนี้จะถูกอนุมัติ
-                        </p>
-                        <div style="
-                            background: #e8f5e8;
-                            border-radius: 8px;
-                            padding: 12px;
-                            font-size: 14px;
-                            color: #2d5a2d;
-                        ">
-                            ✨ ผู้ใช้จะสามารถรับรางวัลได้ทันทีหลังจากอนุมัติ
-                        </div>
-                    </div>
-                `,
-                showCancelButton: true,
-                confirmButtonText: '✅ อนุมัติเลย',
-                cancelButtonText: '❌ ยกเลิก',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    processApproval(redemptionId, 'approve');
-                }
-            });
-        }
-
-        function rejectRedemption(redemptionId) {
-            Swal.fire({
-                ...SweetAlertConfig.warning,
-                title: 'ยืนยันการปฏิเสธ?',
-                html: `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="
-                            width: 80px;
-                            height: 80px;
-                            background: linear-gradient(135deg, #ee5a24, #f368e0);
-                            border-radius: 50%;
-                            margin: 0 auto 20px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 40px;
-                            color: white;
-                        ">❌</div>
-                        <p style="font-size: 16px; margin-bottom: 15px;">
-                            การแลกรางวัลนี้จะถูกปฏิเสธ
-                        </p>
-                        <div style="
-                            background: #fff3cd;
-                            border-radius: 8px;
-                            padding: 12px;
-                            font-size: 14px;
-                            color: #856404;
-                        ">
-                            ⚠️ แต้มจะถูกคืนให้ผู้ใช้หลังจากปฏิเสธ
-                        </div>
-                    </div>
-                `,
-                showCancelButton: true,
-                confirmButtonText: '❌ ปฏิเสธเลย',
-                cancelButtonText: '🔄 ยกเลิก',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    processApproval(redemptionId, 'reject');
-                }
-            });
-        }
-
-        function processApproval(redemptionId, action) {
-            showLoading();
-            
-            const script = document.createElement('script');
-            const callbackName = 'approvalCallback_' + Date.now();
-            
-            window[callbackName] = function(data) {
-                hideLoading();
-                handleApprovalResponse(data, action);
-                delete window[callbackName];
-                document.body.removeChild(script);
-            };
-            
-            script.src = `${GOOGLE_SCRIPT_URL}?action=${action}&redemptionId=${redemptionId}&adminId=${userId}&callback=${callbackName}`;
-            document.body.appendChild(script);
-        }
-
-        function handleApprovalResponse(data, action) {
-            if (data.success) {
-                const isApprove = action === 'approve';
-                Swal.fire({
-                    ...SweetAlertConfig.success,
-                    title: isApprove ? '✅ อนุมัติสำเร็จ!' : '❌ ปฏิเสธสำเร็จ!',
-                    html: `
-                        <div style="text-align: center; padding: 20px;">
-                            <div style="
-                                width: 80px;
-                                height: 80px;
-                                background: linear-gradient(135deg, ${isApprove ? '#11998e, #38ef7d' : '#ee5a24, #f368e0'});
-                                border-radius: 50%;
-                                margin: 0 auto 20px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 40px;
-                                color: white;
-                                animation: celebration 1.5s ease-in-out;
-                            ">${isApprove ? '✅' : '❌'}</div>
-                            <p style="font-size: 16px; margin-bottom: 15px;">
-                                ${data.message}
-                            </p>
-                            <div style="
-                                background: ${isApprove ? '#e8f5e8' : '#fff3cd'};
-                                border-radius: 8px;
-                                padding: 12px;
-                                font-size: 14px;
-                                color: ${isApprove ? '#2d5a2d' : '#856404'};
-                            ">
-                                ${isApprove ? 
-                                    '🎉 ผู้ใช้สามารถรับรางวัลได้แล้ว' : 
-                                    '💰 แต้มได้ถูกคืนให้ผู้ใช้แล้ว'
-                                }
-                            </div>
-                        </div>
-                        
-                        <style>
-                            @keyframes celebration {
-                                0%, 100% { transform: scale(1) rotate(0deg); }
-                                25% { transform: scale(1.1) rotate(-10deg); }
-                                75% { transform: scale(1.1) rotate(10deg); }
-                            }
-                        </style>
-                    `,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                
-                loadPendingRedemptions();
-            } else {
-                Swal.fire({
-                    ...SweetAlertConfig.error,
-                    title: 'เกิดข้อผิดพลาด',
-                    text: data.message || 'ไม่สามารถดำเนินการได้',
-                });
-            }
-        }
-
-        // Utility functions
-        function switchTab(tab) {
-            // Update nav tabs
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update content sections
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(tab + 'Section').classList.add('active');
-            
-            // Load data if needed
-            if (tab === 'admin' && isAdmin) {
-                loadPendingRedemptions();
-            } else if (tab === 'scan' && isAdmin) {
-                loadRecentScans();
-            }
-        }
-
-        // Open QR Scanner
-        async function openQRScanner() {
-            try {
-                // Hide the UI and show scanner
-                document.getElementById('qrScannerUI').style.display = 'none';
-                document.getElementById('qrScanner').classList.add('active');
-                scannerActive = true;
-                
-                // Simulate QR scanning in this example
-                // In a real app, you would use the LIFF API to scan QR codes
-                // For demonstration, we'll simulate a successful scan after 3 seconds
-                setTimeout(() => {
-                    if (scannerActive) {
-                        const redemptionId = 'REDEEM:' + Math.random().toString(36).substr(2, 9).toUpperCase();
-                        handleScannedQR(`https://liff.line.me/${LIFF_ID}?scan=${redemptionId}`);
+                ],
+                paddingAll: '20px'
+            },
+            footer: {
+                type: 'box',
+                layout: 'vertical',
+                spacing: 'sm',
+                contents: [
+                    {
+                        type: 'button',
+                        style: 'primary',
+                        height: 'sm',
+                        color: '#11998e',
+                        action: {
+                            type: 'uri',
+                            label: '📊 ดูสถานะการแลกรางวัล',
+                            uri: liff.permanentLink.createUrl()
+                        },
+                        margin: 'sm'
+                    },
+                    {
+                        type: 'text',
+                        text: '💡 เก็บหน้าจอนี้ไว้เพื่อแสดงให้ Admin',
+                        size: 'xs',
+                        color: '#999999',
+                        align: 'center',
+                        margin: 'sm'
                     }
-                }, 3000);
-                
-            } catch (error) {
-                console.error('Error opening QR scanner:', error);
-                Swal.fire({
-                    ...SweetAlertConfig.error,
-                    title: 'ไม่สามารถเปิดกล้องได้',
-                    html: `
-                        <div style="text-align: center; padding: 20px;">
-                            <div style="
-                                width: 80px;
-                                height: 80px;
-                                background: linear-gradient(135deg, #ee5a24, #f368e0);
-                                border-radius: 50%;
-                                margin: 0 auto 20px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 40px;
-                                color: white;
-                            ">📷</div>
-                            <p style="font-size: 16px; margin-bottom: 15px;">
-                                กรุณาตรวจสอบการอนุญาตใช้กล้องในแอป LINE
-                            </p>
-                            <div style="
-                                background: #fff3cd;
-                                border-radius: 8px;
-                                padding: 12px;
-                                font-size: 14px;
-                                color: #856404;
-                            ">
-                                💡 ลองปิดแอปแล้วเปิดใหม่ หรือตรวจสอบการตั้งค่าสิทธิ์
-                            </div>
-                        </div>
-                    `,
-                });
+                ],
+                paddingAll: '15px'
+            },
+            styles: {
+                header: {
+                    backgroundColor: '#ffffff'
+                },
+                body: {
+                    backgroundColor: '#ffffff'
+                },
+                footer: {
+                    backgroundColor: '#f8f9fa'
+                }
             }
         }
+    };
+
+    try {
+        await liff.sendMessages([flexMessage]);
+    } catch (error) {
+        console.error('Error sending redemption flex message', error);
+    }
+}
+
+// Admin functions
+function loadPendingRedemptions() {
+    if (!isAdmin) return;
+    
+    const script = document.createElement('script');
+    const callbackName = 'pendingCallback_' + Date.now();
+    
+    window[callbackName] = function(data) {
+        handlePendingData(data);
+        delete window[callbackName];
+        document.body.removeChild(script);
+    };
+    
+    script.src = `${GOOGLE_SCRIPT_URL}?action=getPending&callback=${callbackName}`;
+    document.body.appendChild(script);
+}
+
+function handlePendingData(data) {
+    if (data.success) {
+        const container = document.getElementById('pendingList');
+        container.innerHTML = '';
         
-        // Close QR Scanner
-        function closeQRScanner() {
-            document.getElementById('qrScanner').classList.remove('active');
-            document.getElementById('qrScannerUI').style.display = 'block';
-            scannerActive = false;
-        }
-
-        // Handle scanned QR code
-        function handleScannedQR(scannedValue) {
-            // Close scanner UI
-            closeQRScanner();
-            
-            try {
-                // Check if it's a LIFF URL with scan parameter
-                if (scannedValue.includes('liff.line.me') && scannedValue.includes('scan=')) {
-                    // Extract scan data from URL
-                    const url = new URL(scannedValue);
-                    const scanData = url.searchParams.get('scan');
-                    if (scanData) {
-                        confirmDeliveryFromScan(scanData);
-                    } else {
-                        showInvalidQRError();
-                    }
-                } else {
-                    showInvalidQRError();
-                }
-            } catch (e) {
-                showInvalidQRError();
-            }
-        }
-
-        function showInvalidQRError() {
-            Swal.fire({
-                ...SweetAlertConfig.error,
-                title: 'QR Code ไม่ถูกต้อง',
-                html: `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="
-                            width: 80px;
-                            height: 80px;
-                            background: linear-gradient(135deg, #ee5a24, #f368e0);
-                            border-radius: 50%;
-                            margin: 0 auto 20px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 40px;
-                            color: white;
-                        ">🚫</div>
-                        <p style="font-size: 16px; margin-bottom: 15px;">
-                            กรุณาสแกน QR Code ที่ได้จากระบบเท่านั้น
-                        </p>
-                        <div style="
-                            background: #fff3cd;
-                            border-radius: 8px;
-                            padding: 12px;
-                            font-size: 14px;
-                            color: #856404;
-                        ">
-                            💡 QR Code ต้องมาจากการแลกรางวัลของผู้ใช้เท่านั้น
-                        </div>
-                    </div>
-                `,
-            });
-        }
-
-        // Confirm delivery from QR scan
-        function confirmDeliveryFromScan(scanData) {
-            Swal.fire({
-                ...SweetAlertConfig.question,
-                title: 'ยืนยันการรับรางวัล?',
-                html: `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="
-                            width: 100px;
-                            height: 100px;
-                            background: linear-gradient(135deg, #11998e, #38ef7d);
-                            border-radius: 50%;
-                            margin: 0 auto 25px;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            font-size: 50px;
-                            color: white;
-                            animation: pulse 2s infinite;
-                            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
-                        ">📦</div>
-                        <p style="font-size: 18px; margin-bottom: 20px; font-weight: bold;">
-                            ต้องการยืนยันว่าผู้ใช้ได้รับรางวัลแล้วใช่หรือไม่?
-                        </p>
-                        <div style="
-                            background: linear-gradient(135deg, #e8f5f3, #f0fff0);
-                            border-radius: 15px;
-                            padding: 20px;
-                            margin-bottom: 20px;
-                            border: 2px solid #11998e;
-                        ">
-                            <p style="color: #2d5a2d; font-size: 14px; line-height: 1.6;">
-                                ✅ การยืนยันจะทำให้สถานะเปลี่ยนเป็น "รับรางวัลแล้ว"<br>
-                                📱 ผู้ใช้จะได้รับการแจ้งเตือนทันทีผ่าน LINE<br>
-                                🔒 ไม่สามารถยกเลิกหลังจากยืนยันแล้ว
-                            </p>
-                        </div>
-                        <div style="
-                            background: #fff3cd;
-                            border-radius: 8px;
-                            padding: 12px;
-                            font-size: 14px;
-                            color: #856404;
-                        ">
-                            ⚠️ กรุณาตรวจสอบให้แน่ใจว่าได้มอบรางวัลให้ผู้ใช้แล้ว
-                        </div>
-                    </div>
-                    
-                    <style>
-                        @keyframes pulse {
-                            0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.4); }
-                            70% { box-shadow: 0 0 0 20px rgba(17, 153, 142, 0); }
-                            100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0); }
-                        }
-                    </style>
-                `,
-                showCancelButton: true,
-                confirmButtonText: '✅ ยืนยันการมอบรางวัล',
-                cancelButtonText: '❌ ยกเลิก',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    processDeliveryScan(scanData);
-                }
-            });
-        }
-
-        function processDeliveryScan(scanData) {
-            showLoading();
-            
-            const script = document.createElement('script');
-            const callbackName = 'deliveryCallback_' + Date.now();
-            
-            window[callbackName] = function(data) {
-                hideLoading();
-                handleDeliveryResponse(data);
-                delete window[callbackName];
-                document.body.removeChild(script);
-            };
-            
-            script.src = `${GOOGLE_SCRIPT_URL}?action=confirmDelivery&adminId=${userId}&scanData=${encodeURIComponent(scanData)}&callback=${callbackName}`;
-            document.body.appendChild(script);
-        }
-
-        function handleDeliveryResponse(data) {
-            if (data.success) {
-                Swal.fire({
-                    ...SweetAlertConfig.success,
-                    title: '🎉 ยืนยันสำเร็จ!',
-                    html: `
-                        <div style="text-align: center; padding: 20px;">
-                            <div style="
-                                width: 100px;
-                                height: 100px;
-                                background: linear-gradient(135deg, #11998e, #38ef7d);
-                                border-radius: 50%;
-                                margin: 0 auto 25px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 50px;
-                                color: white;
-                                animation: celebration 2s ease-in-out infinite;
-                                box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
-                            ">🎁</div>
-                            
-                            <div style="
-                                background: linear-gradient(135deg, #e8f5f3, #f0fff0);
-                                border-radius: 15px;
-                                padding: 25px;
-                                margin-bottom: 20px;
-                                border: 2px solid #11998e;
-                            ">
-                                <h3 style="color: #11998e; margin-bottom: 15px; font-size: 18px;">
-                                    ✅ การมอบรางวัลเสร็จสิ้น
-                                </h3>
-                                <div style="text-align: left; font-size: 14px; color: #333; line-height: 1.6;">
-                                    <p style="margin-bottom: 8px;"><strong>👤 ผู้รับ:</strong> ${data.userName}</p>
-                                    <p style="margin-bottom: 8px;"><strong>🎁 รางวัล:</strong> ${data.rewardName}</p>
-                                    <p style="margin-bottom: 8px;"><strong>🔢 รหัสอ้างอิง:</strong> ${data.redemptionId}</p>
-                                    <p style="color: #666; font-size: 13px; margin-top: 10px;">
-                                        📅 วันที่ยืนยัน: ${new Date().toLocaleDateString('th-TH', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div style="
-                                background: #e1f5fe;
-                                border-radius: 10px;
-                                padding: 15px;
-                                font-size: 14px;
-                                color: #0277bd;
-                            ">
-                                📱 ผู้ใช้ได้รับการแจ้งเตือนแล้วผ่าน LINE
-                            </div>
-                        </div>
-                        
-                        <style>
-                            @keyframes celebration {
-                                0%, 100% { transform: scale(1) rotate(0deg); }
-                                25% { transform: scale(1.1) rotate(-5deg); }
-                                75% { transform: scale(1.1) rotate(5deg); }
-                            }
-                        </style>
-                    `,
-                    showConfirmButton: false,
-                    timer: 4000
-                });
-                
-                // Reload recent scans
-                loadRecentScans();
-            } else {
-                Swal.fire({
-                    ...SweetAlertConfig.error,
-                    title: 'ไม่สามารถยืนยันได้',
-                    html: `
-                        <div style="text-align: center; padding: 20px;">
-                            <div style="
-                                width: 80px;
-                                height: 80px;
-                                background: linear-gradient(135deg, #ee5a24, #f368e0);
-                                border-radius: 50%;
-                                margin: 0 auto 20px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 40px;
-                                color: white;
-                            ">❌</div>
-                            <p style="font-size: 16px; margin-bottom: 15px;">
-                                ${data.message || 'กรุณาตรวจสอบ QR Code หรือสิทธิ์การเข้าถึง'}
-                            </p>
-                            <div style="
-                                background: #fff3cd;
-                                border: 1px solid #ffeaa7;
-                                border-radius: 8px;
-                                padding: 15px;
-                                font-size: 14px;
-                                color: #856404;
-                                text-align: left;
-                            ">
-                                <strong>🔍 สาเหตุที่เป็นไปได้:</strong><br>
-                                • QR Code หมดอายุหรือไม่ถูกต้อง<br>
-                                • รางวัลได้รับการยืนยันแล้ว<br>
-                                • คุณไม่มีสิทธิ์ Admin<br>
-                                • ปัญหาการเชื่อมต่อเครือข่าย
-                            </div>
-                        </div>
-                    `,
-                });
-            }
-        }
-
-        // Load recent scans
-        function loadRecentScans() {
-            const script = document.createElement('script');
-            const callbackName = 'recentScansCallback_' + Date.now();
-            
-            window[callbackName] = function(data) {
-                handleRecentScansData(data);
-                delete window[callbackName];
-                document.body.removeChild(script);
-            };
-            
-            script.src = `${GOOGLE_SCRIPT_URL}?action=getRecentDeliveries&callback=${callbackName}`;
-            document.body.appendChild(script);
-        }
-
-        function handleRecentScansData(data) {
-            const container = document.getElementById('recentScans');
-            
-            if (data.success && data.deliveries.length > 0) {
-                container.innerHTML = data.deliveries.map(item => `
+        if (data.pending.length === 0) {
+            container.innerHTML = `
+                <div style="
+                    text-align: center; 
+                    padding: 40px 20px;
+                    color: #999;
+                    background: #f8f9fa;
+                    border-radius: 15px;
+                ">
                     <div style="
-                        background: linear-gradient(135deg, #fff, #f8f9fa);
-                        padding: 20px;
-                        border-radius: 15px;
-                        margin-bottom: 15px;
-                        text-align: left;
-                        font-size: 14px;
-                        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-                        border: 1px solid #e9ecef;
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.15)'" 
-                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 3px 10px rgba(0,0,0,0.1)'">
-                        
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="
-                                    width: 35px;
-                                    height: 35px;
-                                    background: linear-gradient(135deg, #11998e, #38ef7d);
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    font-size: 16px;
-                                    color: white;
-                                ">👤</div>
-                                <div>
-                                    <div style="font-weight: bold; font-size: 15px; color: #333;">
-                                        ${item.userName}
-                                    </div>
+                        width: 80px;
+                        height: 80px;
+                        background: #e9ecef;
+                        border-radius: 50%;
+                        margin: 0 auto 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 40px;
+                    ">📝</div>
+                    <h3 style="margin-bottom: 10px; color: #666;">ไม่มีรายการรอการอนุมัติ</h3>
+                    <p style="font-size: 14px;">รายการแลกรางวัลจะแสดงที่นี่เมื่อมีผู้ใช้แลกรางวัล</p>
+                </div>
+            `;
+        } else {
+            data.pending.forEach(item => {
+                const pendingItem = document.createElement('div');
+                pendingItem.className = 'pending-item';
+                pendingItem.style.cssText = `
+                    background: linear-gradient(135deg, #fff, #f8f9fa);
+                    padding: 20px;
+                    border-radius: 15px;
+                    margin-bottom: 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+                    border: 1px solid #e9ecef;
+                    transition: all 0.3s ease;
+                `;
+                
+                pendingItem.innerHTML = `
+                    <div class="pending-info" style="flex: 1;">
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            margin-bottom: 10px;
+                        ">
+                            <div style="
+                                width: 40px;
+                                height: 40px;
+                                background: linear-gradient(135deg, #11998e, #38ef7d);
+                                border-radius: 50%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 20px;
+                                color: white;
+                            ">👤</div>
+                            <div>
+                                <div style="font-weight: bold; font-size: 16px; color: #333; margin-bottom: 2px;">
+                                    ${item.userName}
+                                </div>
+                                <div style="font-size: 12px; color: #999;">
+                                    ${new Date(item.requestDate).toLocaleDateString('th-TH', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}
                                 </div>
                             </div>
-                            <span style="
-                                background: linear-gradient(135deg, #11998e, #38ef7d);
-                                color: white;
-                                padding: 6px 15px;
-                                border-radius: 20px;
-                                font-size: 12px;
-                                font-weight: bold;
-                                box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
-                            ">✓ รับแล้ว</span>
                         </div>
-                        
                         <div style="
                             background: #f0f8ff;
-                            padding: 12px 15px;
+                            padding: 10px 15px;
                             border-radius: 8px;
                             border-left: 4px solid #11998e;
                             margin-bottom: 10px;
                         ">
-                            <div style="color: #333; font-weight: bold; margin-bottom: 4px;">
+                            <div style="color: #333; font-weight: bold; margin-bottom: 5px;">
                                 🎁 ${item.rewardName}
                             </div>
-                        </div>
-                        
-                        <div style="color: #666; font-size: 12px; display: flex; align-items: center; gap: 8px;">
-                            <span>📅</span>
-                            <span>${formatThaiDateTime(item.deliveredDate)}</span>
+                            <div style="color: #ee5a24; font-weight: bold; font-size: 14px;">
+                                💰 ${item.rewardPoints} แต้ม
+                            </div>
                         </div>
                     </div>
-                `).join('');
-            } else {
-                container.innerHTML = `
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-left: 15px;">
+                        <button onclick="approveRedemption('${item.id}')" style="
+                            background: linear-gradient(135deg, #11998e, #38ef7d);
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            transition: all 0.3s;
+                            font-size: 14px;
+                            box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
+                        " onmouseover="this.style.transform='translateY(-2px)'" 
+                           onmouseout="this.style.transform='translateY(0)'">
+                            ✅ อนุมัติ
+                        </button>
+                        <button onclick="rejectRedemption('${item.id}')" style="
+                            background: linear-gradient(135deg, #ee5a24, #f368e0);
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            transition: all 0.3s;
+                            font-size: 14px;
+                            box-shadow: 0 2px 8px rgba(238, 90, 36, 0.3);
+                        " onmouseover="this.style.transform='translateY(-2px)'" 
+                           onmouseout="this.style.transform='translateY(0)'">
+                            ❌ ปฏิเสธ
+                        </button>
+                    </div>
+                `;
+                
+                // Add hover effect
+                pendingItem.addEventListener('mouseenter', () => {
+                    pendingItem.style.transform = 'translateY(-3px)';
+                    pendingItem.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+                });
+                
+                pendingItem.addEventListener('mouseleave', () => {
+                    pendingItem.style.transform = 'translateY(0)';
+                    pendingItem.style.boxShadow = '0 3px 10px rgba(0,0,0,0.1)';
+                });
+                
+                container.appendChild(pendingItem);
+            });
+        }
+    }
+}
+
+function approveRedemption(redemptionId) {
+    Swal.fire({
+        ...SweetAlertConfig.question,
+        title: 'ยืนยันการอนุมัติ?',
+        html: `
+            <div style="text-align: center; padding: 20px;">
+                <div style="
+                    width: 80px;
+                    height: 80px;
+                    background: linear-gradient(135deg, #11998e, #38ef7d);
+                    border-radius: 50%;
+                    margin: 0 auto 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 40px;
+                    color: white;
+                ">✅</div>
+                <p style="font-size: 16px; margin-bottom: 15px;">
+                    การแลกรางวัลนี้จะถูกอนุมัติ
+                </p>
+                <div style="
+                    background: #e8f5e8;
+                    border-radius: 8px;
+                    padding: 12px;
+                    font-size: 14px;
+                    color: #2d5a2d;
+                ">
+                    ✨ ผู้ใช้จะสามารถรับรางวัลได้ทันทีหลังจากอนุมัติ
+                </div>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: '✅ อนุมัติเลย',
+        cancelButtonText: '❌ ยกเลิก',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            processApproval(redemptionId, 'approve');
+        }
+    });
+}
+
+function rejectRedemption(redemptionId) {
+    Swal.fire({
+        ...SweetAlertConfig.warning,
+        title: 'ยืนยันการปฏิเสธ?',
+        html: `
+            <div style="text-align: center; padding: 20px;">
+                <div style="
+                    width: 80px;
+                    height: 80px;
+                    background: linear-gradient(135deg, #ee5a24, #f368e0);
+                    border-radius: 50%;
+                    margin: 0 auto 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 40px;
+                    color: white;
+                ">❌</div>
+                <p style="font-size: 16px; margin-bottom: 15px;">
+                    การแลกรางวัลนี้จะถูกปฏิเสธ
+                </p>
+                <div style="
+                    background: #fff3cd;
+                    border-radius: 8px;
+                    padding: 12px;
+                    font-size: 14px;
+                    color: #856404;
+                ">
+                    ⚠️ แต้มจะถูกคืนให้ผู้ใช้หลังจากปฏิเสธ
+                </div>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: '❌ ปฏิเสธเลย',
+        cancelButtonText: '🔄 ยกเลิก',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            processApproval(redemptionId, 'reject');
+        }
+    });
+}
+
+function processApproval(redemptionId, action) {
+    showLoading();
+    
+    const script = document.createElement('script');
+    const callbackName = 'approvalCallback_' + Date.now();
+    
+    window[callbackName] = function(data) {
+        hideLoading();
+        handleApprovalResponse(data, action);
+        delete window[callbackName];
+        document.body.removeChild(script);
+    };
+    
+    script.src = `${GOOGLE_SCRIPT_URL}?action=${action}&redemptionId=${redemptionId}&adminId=${userId}&callback=${callbackName}`;
+    document.body.appendChild(script);
+}
+
+function handleApprovalResponse(data, action) {
+    if (data.success) {
+        const isApprove = action === 'approve';
+        Swal.fire({
+            ...SweetAlertConfig.success,
+            title: isApprove ? '✅ อนุมัติสำเร็จ!' : '❌ ปฏิเสธสำเร็จ!',
+            html: `
+                <div style="text-align: center; padding: 20px;">
                     <div style="
-                        text-align: center; 
-                        padding: 40px 20px;
-                        color: #999;
-                        background: #f8f9fa;
-                        border-radius: 15px;
+                        width: 80px;
+                        height: 80px;
+                        background: linear-gradient(135deg, ${isApprove ? '#11998e, #38ef7d' : '#ee5a24, #f368e0'});
+                        border-radius: 50%;
+                        margin: 0 auto 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 40px;
+                        color: white;
+                        animation: celebration 1.5s ease-in-out;
+                    ">${isApprove ? '✅' : '❌'}</div>
+                    <p style="font-size: 16px; margin-bottom: 15px;">
+                        ${data.message}
+                    </p>
+                    <div style="
+                        background: ${isApprove ? '#e8f5e8' : '#fff3cd'};
+                        border-radius: 8px;
+                        padding: 12px;
+                        font-size: 14px;
+                        color: ${isApprove ? '#2d5a2d' : '#856404'};
                     ">
+                        ${isApprove ? 
+                            '🎉 ผู้ใช้สามารถรับรางวัลได้แล้ว' : 
+                            '💰 แต้มได้ถูกคืนให้ผู้ใช้แล้ว'
+                        }
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes celebration {
+                        0%, 100% { transform: scale(1) rotate(0deg); }
+                        25% { transform: scale(1.1) rotate(-10deg); }
+                        75% { transform: scale(1.1) rotate(10deg); }
+                    }
+                </style>
+            `,
+            showConfirmButton: false,
+            timer: 2000
+        });
+        
+        loadPendingRedemptions();
+    } else {
+        Swal.fire({
+            ...SweetAlertConfig.error,
+            title: 'เกิดข้อผิดพลาด',
+            text: data.message || 'ไม่สามารถดำเนินการได้',
+        });
+    }
+}
+
+// Utility functions
+function switchTab(tab) {
+    // Update nav tabs
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Update content sections
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(tab + 'Section').classList.add('active');
+    
+    // Load data if needed
+    if (tab === 'admin' && isAdmin) {
+        loadPendingRedemptions();
+    } else if (tab === 'scan' && isAdmin) {
+        loadRecentScans();
+    }
+}
+
+// Open QR Scanner
+async function openQRScanner() {
+    try {
+        // Hide the UI and show scanner
+        document.getElementById('qrScannerUI').style.display = 'none';
+        document.getElementById('qrScanner').classList.add('active');
+        scannerActive = true;
+        
+        // Use LIFF scanCode API
+        const scanResult = await liff.scanCodeV2();
+        
+        if (scanResult && scanResult.value) {
+            handleScannedQR(scanResult.value);
+        } else {
+            closeQRScanner();
+            Swal.fire({
+                ...SweetAlertConfig.error,
+                title: 'ไม่พบข้อมูลใน QR Code',
+                text: 'กรุณาสแกนใหม่อีกครั้ง',
+            });
+        }
+    } catch (error) {
+        console.error('Error scanning QR code:', error);
+        closeQRScanner();
+        
+        if (error.code === 'SCAN_CANCELED') {
+            // User canceled the scan
+            return;
+        }
+        
+        Swal.fire({
+            ...SweetAlertConfig.error,
+            title: 'ไม่สามารถเปิดกล้องได้',
+            html: `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="
+                        width: 80px;
+                        height: 80px;
+                        background: linear-gradient(135deg, #ee5a24, #f368e0);
+                        border-radius: 50%;
+                        margin: 0 auto 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 40px;
+                        color: white;
+                    ">📷</div>
+                    <p style="font-size: 16px; margin-bottom: 15px;">
+                        กรุณาตรวจสอบการอนุญาตใช้กล้องในแอป LINE
+                    </p>
+                    <div style="
+                        background: #fff3cd;
+                        border-radius: 8px;
+                        padding: 12px;
+                        font-size: 14px;
+                        color: #856404;
+                    ">
+                        💡 ลองปิดแอปแล้วเปิดใหม่ หรือตรวจสอบการตั้งค่าสิทธิ์
+                    </div>
+                </div>
+            `,
+        });
+    }
+}
+
+// Close QR Scanner
+function closeQRScanner() {
+    document.getElementById('qrScanner').classList.remove('active');
+    document.getElementById('qrScannerUI').style.display = 'block';
+    scannerActive = false;
+}
+
+// Handle scanned QR code
+function handleScannedQR(scannedValue) {
+    // Close scanner UI
+    closeQRScanner();
+    
+    try {
+        // Check if it's a LIFF URL with scan parameter
+        if (scannedValue.includes('liff.line.me') && scannedValue.includes('scan=')) {
+            // Extract scan data from URL
+            const url = new URL(scannedValue);
+            const scanData = url.searchParams.get('scan');
+            if (scanData) {
+                confirmDeliveryFromScan(scanData);
+            } else {
+                showInvalidQRError();
+            }
+        } else {
+            showInvalidQRError();
+        }
+    } catch (e) {
+        showInvalidQRError();
+    }
+}
+
+function showInvalidQRError() {
+    Swal.fire({
+        ...SweetAlertConfig.error,
+        title: 'QR Code ไม่ถูกต้อง',
+        html: `
+            <div style="text-align: center; padding: 20px;">
+                <div style="
+                    width: 80px;
+                    height: 80px;
+                    background: linear-gradient(135deg, #ee5a24, #f368e0);
+                    border-radius: 50%;
+                    margin: 0 auto 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 40px;
+                    color: white;
+                ">🚫</div>
+                <p style="font-size: 16px; margin-bottom: 15px;">
+                    กรุณาสแกน QR Code ที่ได้จากระบบเท่านั้น
+                </p>
+                <div style="
+                    background: #fff3cd;
+                    border-radius: 8px;
+                    padding: 12px;
+                    font-size: 14px;
+                    color: #856404;
+                ">
+                    💡 QR Code ต้องมาจากการแลกรางวัลของผู้ใช้เท่านั้น
+                </div>
+            </div>
+        `,
+    });
+}
+
+// Confirm delivery from QR scan
+function confirmDeliveryFromScan(scanData) {
+    Swal.fire({
+        ...SweetAlertConfig.question,
+        title: 'ยืนยันการรับรางวัล?',
+        html: `
+            <div style="text-align: center; padding: 20px;">
+                <div style="
+                    width: 100px;
+                    height: 100px;
+                    background: linear-gradient(135deg, #11998e, #38ef7d);
+                    border-radius: 50%;
+                    margin: 0 auto 25px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 50px;
+                    color: white;
+                    animation: pulse 2s infinite;
+                    box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+                ">📦</div>
+                <p style="font-size: 18px; margin-bottom: 20px; font-weight: bold;">
+                    ต้องการยืนยันว่าผู้ใช้ได้รับรางวัลแล้วใช่หรือไม่?
+                </p>
+                <div style="
+                    background: linear-gradient(135deg, #e8f5f3, #f0fff0);
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    border: 2px solid #11998e;
+                ">
+                    <p style="color: #2d5a2d; font-size: 14px; line-height: 1.6;">
+                        ✅ การยืนยันจะทำให้สถานะเปลี่ยนเป็น "รับรางวัลแล้ว"<br>
+                        📱 ผู้ใช้จะได้รับการแจ้งเตือนทันทีผ่าน LINE<br>
+                        🔒 ไม่สามารถยกเลิกหลังจากยืนยันแล้ว
+                    </p>
+                </div>
+                <div style="
+                    background: #fff3cd;
+                    border-radius: 8px;
+                    padding: 12px;
+                    font-size: 14px;
+                    color: #856404;
+                ">
+                    ⚠️ กรุณาตรวจสอบให้แน่ใจว่าได้มอบรางวัลให้ผู้ใช้แล้ว
+                </div>
+            </div>
+            
+            <style>
+                @keyframes pulse {
+                    0% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0.4); }
+                    70% { box-shadow: 0 0 0 20px rgba(17, 153, 142, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(17, 153, 142, 0); }
+                }
+            </style>
+        `,
+        showCancelButton: true,
+        confirmButtonText: '✅ ยืนยันการมอบรางวัล',
+        cancelButtonText: '❌ ยกเลิก',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            processDeliveryScan(scanData);
+        }
+    });
+}
+
+function processDeliveryScan(scanData) {
+    showLoading();
+    
+    const script = document.createElement('script');
+    const callbackName = 'deliveryCallback_' + Date.now();
+    
+    window[callbackName] = function(data) {
+        hideLoading();
+        handleDeliveryResponse(data);
+        delete window[callbackName];
+        document.body.removeChild(script);
+    };
+    
+    script.src = `${GOOGLE_SCRIPT_URL}?action=confirmDelivery&adminId=${userId}&scanData=${encodeURIComponent(scanData)}&callback=${callbackName}`;
+    document.body.appendChild(script);
+}
+
+function handleDeliveryResponse(data) {
+    if (data.success) {
+        Swal.fire({
+            ...SweetAlertConfig.success,
+            title: '🎉 ยืนยันสำเร็จ!',
+            html: `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="
+                        width: 100px;
+                        height: 100px;
+                        background: linear-gradient(135deg, #11998e, #38ef7d);
+                        border-radius: 50%;
+                        margin: 0 auto 25px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 50px;
+                        color: white;
+                        animation: celebration 2s ease-in-out infinite;
+                        box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+                    ">🎁</div>
+                    
+                    <div style="
+                        background: linear-gradient(135deg, #e8f5f3, #f0fff0);
+                        border-radius: 15px;
+                        padding: 25px;
+                        margin-bottom: 20px;
+                        border: 2px solid #11998e;
+                    ">
+                        <h3 style="color: #11998e; margin-bottom: 15px; font-size: 18px;">
+                            ✅ การมอบรางวัลเสร็จสิ้น
+                        </h3>
+                        <div style="text-align: left; font-size: 14px; color: #333; line-height: 1.6;">
+                            <p style="margin-bottom: 8px;"><strong>👤 ผู้รับ:</strong> ${data.userName}</p>
+                            <p style="margin-bottom: 8px;"><strong>🎁 รางวัล:</strong> ${data.rewardName}</p>
+                            <p style="margin-bottom: 8px;"><strong>🔢 รหัสอ้างอิง:</strong> ${data.redemptionId}</p>
+                            <p style="color: #666; font-size: 13px; margin-top: 10px;">
+                                📅 วันที่ยืนยัน: ${new Date().toLocaleDateString('th-TH', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div style="
+                        background: #e1f5fe;
+                        border-radius: 10px;
+                        padding: 15px;
+                        font-size: 14px;
+                        color: #0277bd;
+                    ">
+                        📱 ผู้ใช้ได้รับการแจ้งเตือนแล้วผ่าน LINE
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes celebration {
+                        0%, 100% { transform: scale(1) rotate(0deg); }
+                        25% { transform: scale(1.1) rotate(-5deg); }
+                        75% { transform: scale(1.1) rotate(5deg); }
+                    }
+                </style>
+            `,
+            showConfirmButton: false,
+            timer: 4000
+        });
+        
+        // Reload recent scans
+        loadRecentScans();
+    } else {
+        Swal.fire({
+            ...SweetAlertConfig.error,
+            title: 'ไม่สามารถยืนยันได้',
+            html: `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="
+                        width: 80px;
+                        height: 80px;
+                        background: linear-gradient(135deg, #ee5a24, #f368e0);
+                        border-radius: 50%;
+                        margin: 0 auto 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 40px;
+                        color: white;
+                    ">❌</div>
+                    <p style="font-size: 16px; margin-bottom: 15px;">
+                        ${data.message || 'กรุณาตรวจสอบ QR Code หรือสิทธิ์การเข้าถึง'}
+                    </p>
+                    <div style="
+                        background: #fff3cd;
+                        border: 1px solid #ffeaa7;
+                        border-radius: 8px;
+                        padding: 15px;
+                        font-size: 14px;
+                        color: #856404;
+                        text-align: left;
+                    ">
+                        <strong>🔍 สาเหตุที่เป็นไปได้:</strong><br>
+                        • QR Code หมดอายุหรือไม่ถูกต้อง<br>
+                        • รางวัลได้รับการยืนยันแล้ว<br>
+                        • คุณไม่มีสิทธิ์ Admin<br>
+                        • ปัญหาการเชื่อมต่อเครือข่าย
+                    </div>
+                </div>
+            `,
+        });
+    }
+}
+
+// Load recent scans
+function loadRecentScans() {
+    const script = document.createElement('script');
+    const callbackName = 'recentScansCallback_' + Date.now();
+    
+    window[callbackName] = function(data) {
+        handleRecentScansData(data);
+        delete window[callbackName];
+        document.body.removeChild(script);
+    };
+    
+    script.src = `${GOOGLE_SCRIPT_URL}?action=getRecentDeliveries&callback=${callbackName}`;
+    document.body.appendChild(script);
+}
+
+function handleRecentScansData(data) {
+    const container = document.getElementById('recentScans');
+    
+    if (data.success && data.deliveries.length > 0) {
+        container.innerHTML = data.deliveries.map(item => `
+            <div style="
+                background: linear-gradient(135deg, #fff, #f8f9fa);
+                padding: 20px;
+                border-radius: 15px;
+                margin-bottom: 15px;
+                text-align: left;
+                font-size: 14px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+                border: 1px solid #e9ecef;
+                transition: all 0.3s ease;
+            " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.15)'" 
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 3px 10px rgba(0,0,0,0.1)'">
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="
-                            width: 80px;
-                            height: 80px;
-                            background: #e9ecef;
+                            width: 35px;
+                            height: 35px;
+                            background: linear-gradient(135deg, #11998e, #38ef7d);
                             border-radius: 50%;
-                            margin: 0 auto 20px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            font-size: 40px;
-                        ">📜</div>
-                        <h3 style="margin-bottom: 10px; color: #666;">ยังไม่มีประวัติการสแกน</h3>
-                        <p style="font-size: 14px;">ประวัติการยืนยันรางวัลจะแสดงที่นี่</p>
+                            font-size: 16px;
+                            color: white;
+                        ">👤</div>
+                        <div>
+                            <div style="font-weight: bold; font-size: 15px; color: #333;">
+                                ${item.userName}
+                            </div>
+                        </div>
                     </div>
-                `;
-            }
-        }
+                    <span style="
+                        background: linear-gradient(135deg, #11998e, #38ef7d);
+                        color: white;
+                        padding: 6px 15px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        font-weight: bold;
+                        box-shadow: 0 2px 8px rgba(17, 153, 142, 0.3);
+                    ">✓ รับแล้ว</span>
+                </div>
+                
+                <div style="
+                    background: #f0f8ff;
+                    padding: 12px 15px;
+                    border-radius: 8px;
+                    border-left: 4px solid #11998e;
+                    margin-bottom: 10px;
+                ">
+                    <div style="color: #333; font-weight: bold; margin-bottom: 4px;">
+                        🎁 ${item.rewardName}
+                    </div>
+                </div>
+                
+                <div style="color: #666; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+                    <span>📅</span>
+                    <span>${formatThaiDateTime(item.deliveredDate)}</span>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        container.innerHTML = `
+            <div style="
+                text-align: center; 
+                padding: 40px 20px;
+                color: #999;
+                background: #f8f9fa;
+                border-radius: 15px;
+            ">
+                <div style="
+                    width: 80px;
+                    height: 80px;
+                    background: #e9ecef;
+                    border-radius: 50%;
+                    margin: 0 auto 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 40px;
+                ">📜</div>
+                <h3 style="margin-bottom: 10px; color: #666;">ยังไม่มีประวัติการสแกน</h3>
+                <p style="font-size: 14px;">ประวัติการยืนยันรางวัลจะแสดงที่นี่</p>
+            </div>
+        `;
+    }
+}
 
-        function formatThaiDateTime(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('th-TH', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
+function formatThaiDateTime(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('th-TH', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
 
-        function formatDate(date) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
-        function formatThaiDate(dateStr) {
-            const date = new Date(dateStr);
-            const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-            const day = date.getDate();
-            const month = months[date.getMonth()];
-            const year = date.getFullYear() + 543;
-            return `${day} ${month} ${year}`;
-        }
+function formatThaiDate(dateStr) {
+    const date = new Date(dateStr);
+    const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear() + 543;
+    return `${day} ${month} ${year}`;
+}
 
-        function showLoading() {
-            document.getElementById('loading').classList.add('show');
-        }
+function showLoading() {
+    document.getElementById('loading').classList.add('show');
+}
 
-        function hideLoading() {
-            document.getElementById('loading').classList.remove('show');
-        }
+function hideLoading() {
+    document.getElementById('loading').classList.remove('show');
+}
     </script>
 </body>
 </html>
